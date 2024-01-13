@@ -3,73 +3,105 @@
 #include <sstream>
 #include <vector>
 
-// Функция вывода массива на экран
+/**
+ * Функция для вывода двумерного массива на экран.
+ * @param arr Константная ссылка на двумерный массив.
+ */
 void printArray(const std::vector<std::vector<int>> &arr)
 {
-    std::cout << "Вывод массива на экран:\n";
+    std::cout << "Вывод массива на экран:\n"; // Выводим начальное сообщение
 
-    for (const auto &row : arr)
+    for (const auto &row : arr) // Проходим по каждой строке массива
     {
-        for (int num : row)
+        for (int num : row) // В каждой строке проходим по каждому элементу
         {
-            std::cout << num << ' ';
+            std::cout << num << ' '; // Выводим текущий элемент на экран
         }
-        std::cout << '\n';
+
+        std::cout << '\n'; // Переходим на новую строку после вывода всех элементов текущей строки
     }
 
-    std::cout << '\n';
+    std::cout << '\n'; // Выводим пустую строку для отделения вывода разных массивов
 }
 
-// Функция чтения массива из файла
+/**
+ * Функция для чтения двумерного массива из файла.
+ * @param filename Имя файла для чтения.
+ * @return Двумерный массив, прочитанный из файла.
+ */
 std::vector<std::vector<int>> readArrayFromFile(const std::string &filename)
 {
-    std::vector<std::vector<int>> arr;
-    std::ifstream file_in(filename);
-    std::string line;
-    while (getline(file_in, line))
+    std::ifstream file_in(filename); // Создаем объект ifstream для чтения из файла с указанным именем
+
+    if (!file_in) // Если файл не удалось открыть
     {
-        std::vector<int> row;
-        int num;
-        std::istringstream iss(line);
-        while (iss >> num)
-        {
-            row.push_back(num);
-        }
-        arr.push_back(row);
+        std::cerr << "Unable to open file\n"; // Выводим сообщение об ошибке
+
+        return {}; // Возвращаем пустой массив
     }
-    file_in.close();
-    return arr;
+
+    std::vector<std::vector<int>> arr; // Создаем двумерный массив для хранения прочитанных данных
+    std::string line; // Создаем строку для хранения текущей строки файла
+
+    while (std::getline(file_in, line)) // Читаем файл построчно
+    {
+        std::istringstream iss(line); // Создаем строковый поток из текущей строки
+        std::vector<int> row; // Создаем одномерный массив для хранения текущей строки двумерного массива
+        int num; // Создаем переменную для хранения текущего числа
+
+        while (iss >> num) // Читаем числа из текущей строки
+        {
+            row.push_back(num); // Добавляем текущее число в текущую строку
+        }
+
+        arr.push_back(row); // Добавляем текущую строку в двумерный массив
+    }
+
+    file_in.close(); // Закрываем файл после чтения
+
+    return arr; // Возвращаем прочитанный массив
 }
 
-// Функция для подсчета 0 и 1
+/**
+ * Функция для подсчета количества нулей и единиц в двумерном массиве.
+ * @param arr Константная ссылка на двумерный массив.
+ * @return Пара чисел: количество нулей и количество единиц.
+ */
 std::pair<int, int> countZeroesAndOnes(const std::vector<std::vector<int>> &arr)
 {
-    int countZero = 0, countOne = 0;
-    for (const auto &row : arr)
+    int countZeroes = 0; // Создаем счетчик для нулей
+    int countOnes = 0; // Создаем счетчик для единиц
+
+    for (const auto &row : arr) // Проходим по каждой строке массива
     {
-        for (int num : row)
+        for (int num : row) // В каждой строке проходим по каждому элементу
         {
-            if (num == 0)
-                ++countZero;
-            else if (num == 1)
-                ++countOne;
+            if (num == 0) // Если текущий элемент равен нулю
+            {
+                countZeroes++; // Увеличиваем счетчик нулей
+            }
+            else if (num == 1) // Если текущий элемент равен единице
+            {
+                countOnes++; // Увеличиваем счетчик единиц
+            }
         }
     }
-    return {countZero, countOne};
+
+    return {countZeroes, countOnes}; // Возвращаем пару: количество нулей и количество единиц
 }
 
-int main()
+int main() // Главная функция программы
 {
-    // 1. Чтение файла
-    auto arr_from_file = readArrayFromFile("array.txt");
+    // 1. Чтение массива из файла
+    auto arr_from_file = readArrayFromFile("array.txt"); // Читаем двумерный массив из файла с именем "array.txt"
 
     // 2. Вывод массива на экран
-    printArray(arr_from_file);
+    printArray(arr_from_file); // Выводим прочитанный массив на экран
 
     // 3. Подсчет количества 0 и 1
-    auto [countZero, countOne] = countZeroesAndOnes(arr_from_file);
-    std::cout << "Number of 0s: " << countZero << '\n';
-    std::cout << "Number of 1s: " << countOne << '\n';
+    auto [countZero, countOne] = countZeroesAndOnes(arr_from_file); // Подсчитываем количество нулей и единиц в массиве
+    std::cout << "Number of 0s: " << countZero << '\n'; // Выводим количество нулей на экран
+    std::cout << "Number of 1s: " << countOne << '\n'; // Выводим количество единиц на экран
 
-    return 0;
+    return 0; // Возвращаем 0, что означает успешное завершение программы
 }

@@ -1,23 +1,31 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
+#include <iostream> // Подключаем библиотеку для работы с вводом-выводом
+#include <fstream> // Подключаем библиотеку для работы с файлами
+#include <sstream> // Подключаем библиотеку для работы с потоками строк
+#include <vector> // Подключаем библиотеку для работы с векторами (динамическими массивами)
 
-// Функция для создания массива
+/**
+ * Функция для создания двумерного массива заданного размера.
+ * @param size Размер массива.
+ * @return Двумерный массив размера size x size, заполненный нулями.
+ */
 std::vector<std::vector<int>> createArray(int size)
 {
     std::vector<std::vector<int>> arr(size, std::vector<int>(size, 0));
-    return arr;
+    return arr; // Возвращаем созданный вектор
 }
 
-// Функция заполнения массива
+/**
+ * Функция для заполнения двумерного массива.
+ * Заполняет диагонали массива единицами.
+ * @param arr Ссылка на двумерный массив.
+ */
 void fillArray(std::vector<std::vector<int>> &arr)
 {
-    const int size = arr.size(); // Размер массива
-    const int rowSize = arr[0].size(); // Размер строки arr[i]
-    const int middle = size / 2; // Середина массива
+    const int size = arr.size(); // Получаем размер массива
+    const int rowSize = arr[0].size(); // Получаем размер строки arr[i]
+    const int middle = size / 2; // Вычисляем середину массива
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++) // Проходим по каждой строке массива
     {
         // Если i больше середины массива, то пропускаем итерацию
         if (i > middle)
@@ -25,11 +33,13 @@ void fillArray(std::vector<std::vector<int>> &arr)
             continue;
         }
 
-        for (int j = 0; j < rowSize; j++)
+        for (int j = 0; j < rowSize; j++) // Проходим по каждому элементу строки
         {
             // Индекс элемента, симметричного элементу с индексом i
             int endIdx = rowSize - 1 - j;
             
+            // Если текущий индекс равен индексу элемента или индексу симметричного элемента,
+            // то устанавливаем значение элемента равным 1
             if (i == j || i == endIdx)
             {
                 arr[i][j] = 1;
@@ -38,51 +48,61 @@ void fillArray(std::vector<std::vector<int>> &arr)
     }
 }
 
-// Функция вывода массива на экран
+/**
+ * Функция для вывода двумерного массива на экран.
+ * @param arr Константная ссылка на двумерный массив.
+ */
 void printArray(const std::vector<std::vector<int>> &arr)
 {
-    std::cout << "Вывод массива на экран:\n";
+    std::cout << "Вывод массива на экран:\n"; // Выводим начальное сообщение
 
-    for (const auto &row : arr)
+    for (const auto &row : arr) // Проходим по каждой строке массива
     {
-        for (int num : row)
+        for (int num : row) // В каждой строке проходим по каждому элементу
         {
-            std::cout << num << ' ';
+            std::cout << num << ' '; // Выводим текущий элемент на экран
         }
-        std::cout << '\n';
+        std::cout << '\n'; // Переходим на новую строку после вывода всех элементов текущей строки
     }
 
-    std::cout << '\n';
+    std::cout << '\n'; // Выводим пустую строку для отделения вывода разных массивов
 }
 
-// Функция записи массива в файл
+/**
+ * Функция для записи двумерного массива в файл.
+ * @param arr Константная ссылка на двумерный массив.
+ * @param filename Имя файла для записи.
+ */
 void writeArrayToFile(const std::vector<std::vector<int>> &arr, const std::string &filename)
 {
-    std::ofstream file_out(filename);
-    for (const auto &row : arr)
+    std::ofstream file_out(filename); // Создаем объект ofstream для записи в файл с указанным именем
+
+    for (const auto &row : arr) // Проходим по каждой строке массива
     {
-        for (int num : row)
+        for (int num : row) // В каждой строке проходим по каждому элементу
         {
-            file_out << num << ' ';
+            file_out << num << ' '; // Записываем текущий элемент в файл
         }
-        file_out << '\n';
+
+        file_out << '\n'; // Переходим на новую строку в файле после записи всех элементов текущей строки
     }
-    file_out.close();
+
+    file_out.close(); // Закрываем файл после записи
 }
 
-int main()
+int main() // Главная функция программы
 {
     // 1. Создание
-    auto arr = createArray(5);
+    auto arr = createArray(5); // Создаем двумерный массив размером 5x5
 
     // 2. Заполнение массива
-    fillArray(arr);
+    fillArray(arr); // Заполняем массив: устанавливаем единицы на диагоналях
 
     // 3. Вывод массива на экран
-    printArray(arr);
+    printArray(arr); // Выводим массив на экран
 
     // 4. Запись массива в файл
-    writeArrayToFile(arr, "array.txt");
+    writeArrayToFile(arr, "array.txt"); // Записываем массив в файл с именем "array.txt"
 
-    return 0;
+    return 0; // Возвращаем 0, что означает успешное завершение программы
 }
