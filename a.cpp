@@ -98,6 +98,13 @@ void writeArrayToFile(const std::vector<std::vector<int>> &arr, const std::strin
 {
     std::ofstream file_out(filename); // Создаем объект ofstream для записи в файл с указанным именем
 
+    // Проверяем, был ли файл успешно открыт
+    if (!file_out.is_open())
+    {
+        std::cout << "Unable to open file " << filename << '\n';
+        return;
+    }
+
     for (const auto &row : arr) // Проходим по каждой строке массива
     {
         for (int num : row) // В каждой строке проходим по каждому элементу
