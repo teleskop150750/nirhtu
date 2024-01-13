@@ -1,6 +1,28 @@
 #include <iostream> // Подключаем библиотеку для работы с вводом-выводом
-#include <fstream> // Подключаем библиотеку для работы с файлами
-#include <vector> // Подключаем библиотеку для работы с векторами (динамическими массивами)
+#include <fstream>  // Подключаем библиотеку для работы с файлами
+#include <vector>   // Подключаем библиотеку для работы с векторами (динамическими массивами)
+
+std::vector<std::vector<int>> createArray(int size);                                          // Прототип функции для создания двумерного массива заданного размера
+void fillArray(std::vector<std::vector<int>> &arr);                                           // Прототип функции для заполнения двумерного массива
+void printArray(const std::vector<std::vector<int>> &arr);                                    // Прототип функции для вывода двумерного массива на экран
+void writeArrayToFile(const std::vector<std::vector<int>> &arr, const std::string &filename); // Прототип функции для записи двумерного массива в файл
+
+int main() // Главная функция программы
+{
+    // 1. Создание
+    auto arr = createArray(5); // Создаем двумерный массив размером 5x5
+
+    // 2. Заполнение массива
+    fillArray(arr); // Заполняем массив: устанавливаем единицы на диагоналях
+
+    // 3. Вывод массива на экран
+    printArray(arr); // Выводим массив на экран
+
+    // 4. Запись массива в файл
+    writeArrayToFile(arr, "array.txt"); // Записываем массив в файл с именем "array.txt"
+
+    return 0; // Возвращаем 0, что означает успешное завершение программы
+}
 
 /**
  * Функция для создания двумерного массива заданного размера.
@@ -20,9 +42,9 @@ std::vector<std::vector<int>> createArray(int size)
  */
 void fillArray(std::vector<std::vector<int>> &arr)
 {
-    const int size = arr.size(); // Получаем размер массива
+    const int size = arr.size();       // Получаем размер массива
     const int rowSize = arr[0].size(); // Получаем размер строки arr[i]
-    const int middle = size / 2; // Вычисляем середину массива
+    const int middle = size / 2;       // Вычисляем середину массива
 
     for (int i = 0; i < size; i++) // Проходим по каждой строке массива
     {
@@ -36,7 +58,7 @@ void fillArray(std::vector<std::vector<int>> &arr)
         {
             // Индекс элемента, симметричного элементу с индексом i
             int endIdx = rowSize - 1 - j;
-            
+
             // Если текущий индекс равен индексу элемента или индексу симметричного элемента,
             // то устанавливаем значение элемента равным 1
             if (i == j || i == endIdx)
@@ -87,21 +109,4 @@ void writeArrayToFile(const std::vector<std::vector<int>> &arr, const std::strin
     }
 
     file_out.close(); // Закрываем файл после записи
-}
-
-int main() // Главная функция программы
-{
-    // 1. Создание
-    auto arr = createArray(5); // Создаем двумерный массив размером 5x5
-
-    // 2. Заполнение массива
-    fillArray(arr); // Заполняем массив: устанавливаем единицы на диагоналях
-
-    // 3. Вывод массива на экран
-    printArray(arr); // Выводим массив на экран
-
-    // 4. Запись массива в файл
-    writeArrayToFile(arr, "array.txt"); // Записываем массив в файл с именем "array.txt"
-
-    return 0; // Возвращаем 0, что означает успешное завершение программы
 }

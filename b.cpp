@@ -1,7 +1,27 @@
 #include <iostream> // Подключаем библиотеку для работы с вводом-выводом
-#include <fstream> // Подключаем библиотеку для работы с файлами
-#include <sstream> // Подключаем библиотеку для работы с потоками строк
-#include <vector> // Подключаем библиотеку для работы с векторами (динамическими массивами)
+#include <fstream>  // Подключаем библиотеку для работы с файлами
+#include <sstream>  // Подключаем библиотеку для работы с потоками строк
+#include <vector>   // Подключаем библиотеку для работы с векторами (динамическими массивами)
+
+std::vector<std::vector<int>> readArrayFromFile(const std::string &filename);     // Прототип функции для чтения двумерного массива из файла
+void printArray(const std::vector<std::vector<int>> &arr);                        // Прототип функции для вывода двумерного массива на экран
+std::pair<int, int> countZeroesAndOnes(const std::vector<std::vector<int>> &arr); // Прототип функции для подсчета количества нулей и единиц в двумерном массиве
+
+int main() // Главная функция программы
+{
+    // 1. Чтение массива из файла
+    auto arr_from_file = readArrayFromFile("array.txt"); // Читаем двумерный массив из файла с именем "array.txt"
+
+    // 2. Вывод массива на экран
+    printArray(arr_from_file); // Выводим прочитанный массив на экран
+
+    // 3. Подсчет количества 0 и 1
+    auto [countZero, countOne] = countZeroesAndOnes(arr_from_file); // Подсчитываем количество нулей и единиц в массиве
+    std::cout << "Number of 0s: " << countZero << '\n';             // Выводим количество нулей на экран
+    std::cout << "Number of 1s: " << countOne << '\n';              // Выводим количество единиц на экран
+
+    return 0; // Возвращаем 0, что означает успешное завершение программы
+}
 
 /**
  * Функция для вывода двумерного массива на экран.
@@ -41,13 +61,13 @@ std::vector<std::vector<int>> readArrayFromFile(const std::string &filename)
     }
 
     std::vector<std::vector<int>> arr; // Создаем двумерный массив для хранения прочитанных данных
-    std::string line; // Создаем строку для хранения текущей строки файла
+    std::string line;                  // Создаем строку для хранения текущей строки файла
 
     while (std::getline(file_in, line)) // Читаем файл построчно
     {
         std::istringstream iss(line); // Создаем строковый поток из текущей строки
-        std::vector<int> row; // Создаем одномерный массив для хранения текущей строки двумерного массива
-        int num; // Создаем переменную для хранения текущего числа
+        std::vector<int> row;         // Создаем одномерный массив для хранения текущей строки двумерного массива
+        int num;                      // Создаем переменную для хранения текущего числа
 
         while (iss >> num) // Читаем числа из текущей строки
         {
@@ -70,7 +90,7 @@ std::vector<std::vector<int>> readArrayFromFile(const std::string &filename)
 std::pair<int, int> countZeroesAndOnes(const std::vector<std::vector<int>> &arr)
 {
     int countZeroes = 0; // Создаем счетчик для нулей
-    int countOnes = 0; // Создаем счетчик для единиц
+    int countOnes = 0;   // Создаем счетчик для единиц
 
     for (const auto &row : arr) // Проходим по каждой строке массива
     {
@@ -88,20 +108,4 @@ std::pair<int, int> countZeroesAndOnes(const std::vector<std::vector<int>> &arr)
     }
 
     return {countZeroes, countOnes}; // Возвращаем пару: количество нулей и количество единиц
-}
-
-int main() // Главная функция программы
-{
-    // 1. Чтение массива из файла
-    auto arr_from_file = readArrayFromFile("array.txt"); // Читаем двумерный массив из файла с именем "array.txt"
-
-    // 2. Вывод массива на экран
-    printArray(arr_from_file); // Выводим прочитанный массив на экран
-
-    // 3. Подсчет количества 0 и 1
-    auto [countZero, countOne] = countZeroesAndOnes(arr_from_file); // Подсчитываем количество нулей и единиц в массиве
-    std::cout << "Number of 0s: " << countZero << '\n'; // Выводим количество нулей на экран
-    std::cout << "Number of 1s: " << countOne << '\n'; // Выводим количество единиц на экран
-
-    return 0; // Возвращаем 0, что означает успешное завершение программы
 }
