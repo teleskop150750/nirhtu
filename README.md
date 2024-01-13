@@ -1,6 +1,6 @@
 # Контрольная работа по Предместьину. 4 вариант
 
-<video src="demo.mp4" controls title="Title"></video>
+https://github.com/teleskop150750/nirhtu/assets/62594983/7e94e96a-9862-4d08-ae1e-1d4a76a17a74
 
 ## Часть первая. Файл ```a.cpp```
 
